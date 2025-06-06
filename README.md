@@ -82,6 +82,14 @@ El sistema utiliza **Laravel Sanctum** para generar tokens personales. Los usuar
 
 ---
 
+## 🛡️ Seguridad
+
+- Autenticación mediante **Bearer Token** generado por Laravel Sanctum.
+- Validaciones robustas en todos los formularios de registro.
+- Solo usuarios con el rol `admin` pueden registrar a otros usuarios como `admin`.
+
+---
+
 ## 🔐 Autenticación
 
 Este proyecto utiliza autenticación basada en roles. Solo los usuarios con el rol `admin` pueden crear, editar o eliminar productos o usuarios.
@@ -99,13 +107,6 @@ Este proyecto utiliza autenticación basada en roles. Solo los usuarios con el r
 | DELETE | /api/products/{id}     | Elimina un producto                |
 
 > Todos los endpoints de creación, edición y eliminación requieren autenticación con un usuario de rol `admin`.
-
-
-## 🛡️ Seguridad
-
-- Autenticación mediante **Bearer Token** generado por Laravel Sanctum.
-- Validaciones robustas en todos los formularios de registro.
-- Solo usuarios con el rol `admin` pueden registrar a otros usuarios como `admin`.
 
 ---
 
