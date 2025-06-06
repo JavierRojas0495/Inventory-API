@@ -28,8 +28,8 @@ Este proyecto proporciona una API RESTful desarrollada en Laravel para la gesti�
 ## 🚀 Instalación
 
 ```bash
-git clone https://github.com/tu-usuario/tu-repo.git
-cd tu-repo
+git clone https://github.com/JavierRojas0495/Inventory-API.git
+cd Inventory-API
 composer install
 cp .env.example .env
 php artisan key:generate
@@ -79,5 +79,5 @@ Este proyecto está bajo la licencia [MIT](https://opensource.org/licenses/MIT).
 
 ## 🙌 Autor
 
-Desarrollado por [Tu Nombre] – ¡Gracias por revisar este proyecto!
+Desarrollado por Javier Rojas – ¡Gracias por revisar este proyecto!
 
