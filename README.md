@@ -82,6 +82,25 @@ El sistema utiliza **Laravel Sanctum** para generar tokens personales. Los usuar
 
 ---
 
+## 🔐 Autenticación
+
+Este proyecto utiliza autenticación basada en roles. Solo los usuarios con el rol `admin` pueden crear, editar o eliminar productos o usuarios.
+
+---
+
+### 📦 Products
+
+| Método | Endpoint               | Descripción                        |
+|--------|------------------------|------------------------------------|
+| GET    | /api/products          | Lista todos los productos          |
+| GET    | /api/products/{id}     | Muestra un producto específico     |
+| POST   | /api/products          | Crea un nuevo producto             |
+| PUT    | /api/products/{id}     | Actualiza un producto              |
+| DELETE | /api/products/{id}     | Elimina un producto                |
+
+> Todos los endpoints de creación, edición y eliminación requieren autenticación con un usuario de rol `admin`.
+
+
 ## 🛡️ Seguridad
 
 - Autenticación mediante **Bearer Token** generado por Laravel Sanctum.
