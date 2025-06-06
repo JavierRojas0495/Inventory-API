@@ -1,4 +1,3 @@
-
 <p align="center">
   <img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo">
 </p>
@@ -9,9 +8,9 @@
   <a href="#"><img src="https://img.shields.io/badge/license-MIT-lightgrey" alt="License"></a>
 </p>
 
-# Laravel API - Users & Products Module
+# Laravel API - Autenticación de Usuarios
 
-Este proyecto proporciona una API RESTful desarrollada en Laravel para la gestión de usuarios y productos. Está diseñado para facilitar la administración de datos mediante endpoints organizados y protegidos con autenticación de usuario.
+Este proyecto es una API RESTful desarrollada en Laravel que gestiona autenticación de usuarios con soporte para registro, login, logout y registro de usuarios por administradores. Utiliza Laravel Sanctum para manejar tokens de autenticación.
 
 ---
 
@@ -20,8 +19,8 @@ Este proyecto proporciona una API RESTful desarrollada en Laravel para la gesti�
 - PHP >= 8.1
 - Composer
 - Laravel 10+
-- MySQL o cualquier base de datos compatible
-- Postman o herramienta similar para testear la API
+- MySQL o base de datos compatible
+- Postman o Insomnia para probar endpoints
 
 ---
 
@@ -41,33 +40,53 @@ php artisan serve
 
 ## 🔐 Autenticación
 
-Este proyecto utiliza autenticación basada en roles. Solo los usuarios con el rol `admin` pueden crear, editar o eliminar productos o usuarios.
+El sistema utiliza **Laravel Sanctum** para generar tokens personales. Los usuarios deben autenticarse con su correo y contraseña para obtener un token que permita acceder a endpoints protegidos.
 
 ---
 
-## 📦 API Endpoints
+## 📦 API Endpoints - Autenticación de Usuarios
 
-### 🧑‍💼 Users
+| Método | Endpoint                | Descripción                                          | Autenticación |
+|--------|-------------------------|------------------------------------------------------|---------------|
+| POST   | /api/register           | Registro de usuario (rol por defecto: `user`)        | ❌ No         |
+| POST   | /api/admin/register     | Registro de usuario por un admin                     | ✅ Sí (admin) |
+| POST   | /api/login              | Inicio de sesión y generación de token               | ❌ No         |
+| POST   | /api/logout             | Cierre de sesión (revoca todos los tokens del usuario) | ✅ Sí         |
 
-| Método | Endpoint             | Descripción                        |
-|--------|----------------------|------------------------------------|
-| GET    | /api/users           | Lista todos los usuarios           |
-| GET    | /api/users/{id}      | Muestra un usuario específico      |
-| POST   | /api/users           | Crea un nuevo usuario              |
-| PUT    | /api/users/{id}      | Actualiza un usuario               |
-| DELETE | /api/users/{id}      | Elimina un usuario                 |
+---
 
-### 📦 Products
+## 🧾 Detalles del Registro
 
-| Método | Endpoint               | Descripción                        |
-|--------|------------------------|------------------------------------|
-| GET    | /api/products          | Lista todos los productos          |
-| GET    | /api/products/{id}     | Muestra un producto específico     |
-| POST   | /api/products          | Crea un nuevo producto             |
-| PUT    | /api/products/{id}     | Actualiza un producto              |
-| DELETE | /api/products/{id}     | Elimina un producto                |
+### Registro normal (`/api/register`)
+```json
+{
+  "name": "Juan Pérez",
+  "email": "juan@example.com",
+  "password": "secret123",
+  "password_confirmation": "secret123"
+}
+```
 
-> Todos los endpoints de creación, edición y eliminación requieren autenticación con un usuario de rol `admin`.
+### Registro por admin (`/api/admin/register`)
+```json
+{
+  "name": "Ana Admin",
+  "email": "ana@example.com",
+  "password": "admin123",
+  "password_confirmation": "admin123",
+  "role": "admin"
+}
+```
+
+> Este endpoint requiere autenticación con un token de un usuario con rol `admin`.
+
+---
+
+## 🛡️ Seguridad
+
+- Autenticación mediante **Bearer Token** generado por Laravel Sanctum.
+- Validaciones robustas en todos los formularios de registro.
+- Solo usuarios con el rol `admin` pueden registrar a otros usuarios como `admin`.
 
 ---
 
@@ -79,5 +98,5 @@ Este proyecto está bajo la licencia [MIT](https://opensource.org/licenses/MIT).
 
 ## 🙌 Autor
 
-Desarrollado por Javier Rojas – ¡Gracias por revisar este proyecto!
-
+Desarrollado por **Javier Rojas**  
+¡Gracias por revisar este proyecto! 💻
