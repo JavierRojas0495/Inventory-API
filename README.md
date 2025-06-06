@@ -106,6 +106,44 @@ Este proyecto utiliza autenticación basada en roles. Solo los usuarios con el r
 | PUT    | /api/products/{id}     | Actualiza un producto              |
 | DELETE | /api/products/{id}     | Elimina un producto                |
 
+## 🧾 Detalles del Registro
+
+### Crear producto (`/api/products`)
+
+```json
+{
+  "name": "Laptop Dell XPS 13",
+  "description": "Ultrabook de 13 pulgadas con procesador Intel i7",
+  "price": 1299.99,
+  "stock": 20
+}
+```
+
+### Actualizar producto (`/api/products/{id}`)
+
+```json
+{
+  "name": "Laptop Dell XPS 13 - Edición 2024",
+  "description": "Actualización con procesador Intel i9 y pantalla OLED",
+  "price": 1599.99,
+  "stock": 15
+}
+```
+
+###  Consultar un producto (`/api/products/1`)
+
+```json
+{
+  "id": 1,
+  "name": "Laptop Dell XPS 13",
+  "description": "Ultrabook de 13 pulgadas con procesador Intel i7",
+  "price": 1299.99,
+  "stock": 20,
+  "created_at": "2025-06-06T12:34:56.000000Z",
+  "updated_at": "2025-06-06T12:34:56.000000Z"
+}
+```
+
 > Todos los endpoints de creación, edición y eliminación requieren autenticación con un usuario de rol `admin`.
 
 ---
