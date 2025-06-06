@@ -119,7 +119,7 @@ Este proyecto utiliza autenticación basada en roles. Solo los usuarios con el r
 }
 ```
 
-### Actualizar producto (`/api/products/{id}`)
+### Actualizar producto (`/api/products/1`)
 
 ```json
 {
