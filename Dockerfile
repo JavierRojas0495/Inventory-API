@@ -1,36 +1,32 @@
-# Imagen base de PHP con Apache
-FROM php:8.2-apache
+FROM php:8.2-fpm
 
-# Instala dependencias necesarias
+# Instala dependencias del sistema
 RUN apt-get update && apt-get install -y \
     libpq-dev \
     unzip \
     zip \
+    git \
     curl \
+    libonig-dev \
     libzip-dev \
-    && docker-php-ext-install pdo pdo_pgsql zip
-
-# Habilita el módulo de reescritura de Apache (importante para Laravel)
-RUN a2enmod rewrite
-
-# Copia archivos del proyecto
-COPY . /var/www/html
-
-# Establece el directorio de trabajo
-WORKDIR /var/www/html
+    libxml2-dev \
+    && docker-php-ext-install pdo pdo_pgsql
 
 # Instala Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Da permisos correctos al storage y bootstrap/cache
-RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+# Copia los archivos de la aplicación
+WORKDIR /var/www
+COPY . .
 
-# Expone el puerto que Apache usa
-EXPOSE 80
+# Instala las dependencias de PHP
+RUN composer install --no-dev --optimize-autoloader
 
-# Copia y da permisos al script de arranque
-COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
-RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+# Permisos
+RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
 
-# Usa el entrypoint custom
-ENTRYPOINT ["docker-entrypoint.sh"]
+# Expone el puerto
+EXPOSE 8000
+
+# Comando por defecto
+CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
