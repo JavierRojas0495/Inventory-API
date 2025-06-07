@@ -1,30 +1,21 @@
 #!/bin/bash
 
+# Esperar a que la base de datos esté disponible
 echo "Esperando a que la base de datos esté disponible..."
-
-until php -r "
-try {
-    new PDO(
-        getenv('DB_CONNECTION') . ':host=' . getenv('DB_HOST') . ';port=' . getenv('DB_PORT') . ';dbname=' . getenv('DB_DATABASE'),
-        getenv('DB_USERNAME'),
-        getenv('DB_PASSWORD')
-    );
-    echo 'Conexión exitosa a la base de datos.' . PHP_EOL;
-    exit(0);
-} catch (Exception \$e) {
-    echo 'Error de conexión: ' . \$e->getMessage() . PHP_EOL;
-    exit(1);
-}
-"; do
-  echo "Reintentando conexión..."
+until php artisan migrate:status > /dev/null 2>&1; do
+  >&2 echo "La base de datos aún no está lista - esperando..."
   sleep 3
 done
 
-echo "Ejecutando comandos de Laravel..."
-php artisan config:clear
-php artisan config:cache
-php artisan key:generate --force
-php artisan migrate --force
+# Generar clave si no existe
+if [ ! -s .env ] || ! grep -q "APP_KEY=base64" .env; then
+  echo "Generando clave de aplicación..."
+  php artisan key:generate
+fi
 
-echo "Iniciando Apache..."
-exec apache2-foreground
+# Ejecutar migraciones (ignora errores si ya están aplicadas)
+echo "Ejecutando migraciones..."
+php artisan migrate --force || true
+
+# Ejecutar el comando principal del contenedor
+exec "$@"
