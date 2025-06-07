@@ -1,53 +1,43 @@
-# Etapa 1: Build con PHP + Composer + extensiones para instalar dependencias
-FROM php:8.2-cli AS build
-
-# Instala dependencias del sistema y extensiones PHP necesarias
-RUN apt-get update && apt-get install -y \
-    libpq-dev zip unzip git curl libzip-dev \
-    && docker-php-ext-install pdo pdo_pgsql zip
-
-# Instala composer globalmente (oficialmente)
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-
-WORKDIR /app
-
-# Copia archivos de composer para optimizar cache
-COPY composer.json composer.lock ./
-
-# Instala dependencias PHP (sin dev y con optimización)
-RUN composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist
-
-# Copia el resto del código
-COPY . .
-
-# Etapa 2: Imagen final con Apache y PHP + extensiones necesarias
+# Imagen base oficial de PHP con Apache
 FROM php:8.2-apache
 
-# Instala extensiones y dependencias para producción
+# Instalar dependencias del sistema
 RUN apt-get update && apt-get install -y \
-    libpq-dev zip unzip git curl libzip-dev \
-    && docker-php-ext-install pdo pdo_pgsql zip \
-    && a2enmod rewrite
+    zip unzip git curl libzip-dev libonig-dev libxml2-dev libpq-dev \
+    && docker-php-ext-install pdo pdo_pgsql zip
 
-# Copia la aplicación desde la etapa build
-COPY --from=build /app /var/www/html
+# Habilitar mod_rewrite de Apache
+RUN a2enmod rewrite
 
-# Da permisos a carpetas necesarias para Laravel
-RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+# Establecer el directorio de trabajo
+WORKDIR /var/www/html
 
-# Copia tu script de entrada y le da permisos
+# Copiar todos los archivos del proyecto al contenedor
+COPY . .
+
+# Cambiar DocumentRoot a /public
+RUN sed -i 's|/var/www/html|/var/www/html/public|g' /etc/apache2/sites-available/000-default.conf
+
+# Asignar permisos adecuados
+RUN chown -R www-data:www-data /var/www/html \
+    && chmod -R 755 /var/www/html/storage /var/www/html/bootstrap/cache
+
+# Instalar Composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+# Instalar dependencias de Laravel
+RUN composer install --no-dev --optimize-autoloader
+
+# Copiar y dar permisos al script de entrada
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
-WORKDIR /var/www/html
+# Exponer el puerto 80
+EXPOSE 80
 
-# Prepara Laravel al iniciar (key, config, migraciones si es necesario)
-RUN php artisan key:generate --force \
-    && php artisan config:clear \
-    && php artisan config:cache
+# Comprobación de salud (opcional pero útil)
+HEALTHCHECK --interval=10s --timeout=3s --start-period=5s --retries=3 \
+  CMD curl -f http://localhost || exit 1
 
-# Si quieres migrar automáticamente (ojo que puede fallar si la base no está lista)
-# RUN php artisan migrate --force || true
-
-ENTRYPOINT ["docker-entrypoint.sh"]
-CMD ["apache2-foreground"]
+# Comando de inicio
+CMD ["docker-entrypoint.sh"]
