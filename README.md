@@ -57,7 +57,20 @@ El sistema utiliza **Laravel Sanctum** para generar tokens personales. Los usuar
 
 ## 🧾 Detalles del Registro
 
-### Registro normal (`/api/register`)
+### 🧍 Registro de usuario (`/api/register`)
+
+**📬 Método:** `POST`  
+**📍 URL:** `https://inventory-api-1u4p.onrender.com/api/register`  
+**🔓 Autenticación requerida:** ❌ No
+
+#### 📥 Encabezados requeridos
+
+| Clave         | Valor             |
+|---------------|-------------------|
+| Content-Type  | application/json  |
+
+#### 🧾 Ejemplo de cuerpo (Body)
+
 ```json
 {
   "name": "Juan Pérez",
@@ -67,7 +80,38 @@ El sistema utiliza **Laravel Sanctum** para generar tokens personales. Los usuar
 }
 ```
 
-### Registro por admin (`/api/admin/register`)
+### Resultado de la peticion
+
+```json
+{
+    "message": "Usuario registrado exitosamente.",
+    "user": {
+        "name": "Juan Pérez",
+        "email": "juan@example.com",
+        "role": "user",
+        "updated_at": "2025-06-07T16:33:45.000000Z",
+        "created_at": "2025-06-07T16:33:45.000000Z",
+        "id": 1
+    }
+}
+```
+
+### 👩‍💼 Registro por admin (`/api/admin/register`)
+
+**📬 Método:** `POST`  
+**📍 URL:** `https://inventory-api-1u4p.onrender.com/api/admin/register`  
+**🔓 Autenticación requerida:** ✅ Sí (token Bearer de un usuario con rol `admin`)
+
+#### 📥 Encabezados requeridos
+
+| Clave         | Valor               |
+|---------------|---------------------|
+| Content-Type  | application/json    |
+| Authorization | Bearer {token}      |
+| Accept | application/json    |
+
+#### 🧾 Ejemplo de cuerpo (Body)
+
 ```json
 {
   "name": "Ana Admin",
