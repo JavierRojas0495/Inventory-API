@@ -1,4 +1,4 @@
-# Etapa 1: Build con PHP + composer + extensiones para instalar dependencias
+# Etapa 1: Build con PHP + Composer + extensiones para instalar dependencias
 FROM php:8.2-cli AS build
 
 # Instala dependencias del sistema y extensiones PHP necesarias
@@ -32,7 +32,7 @@ RUN apt-get update && apt-get install -y \
 # Copia la aplicación desde la etapa build
 COPY --from=build /app /var/www/html
 
-# Da permisos a carpetas necesarias
+# Da permisos a carpetas necesarias para Laravel
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
 # Copia tu script de entrada y le da permisos
@@ -41,11 +41,13 @@ RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
 WORKDIR /var/www/html
 
-# Ejecuta comandos para preparar Laravel
+# Prepara Laravel al iniciar (key, config, migraciones si es necesario)
 RUN php artisan key:generate --force \
     && php artisan config:clear \
-    && php artisan config:cache \
-    && php artisan migrate --force || true
+    && php artisan config:cache
+
+# Si quieres migrar automáticamente (ojo que puede fallar si la base no está lista)
+# RUN php artisan migrate --force || true
 
 ENTRYPOINT ["docker-entrypoint.sh"]
 CMD ["apache2-foreground"]
