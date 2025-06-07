@@ -20,7 +20,6 @@ RUN apt-get update && apt-get install -y \
 COPY --from=build /app /var/www/html
 
 # Configura Apache
-COPY .docker/vhost.conf /etc/apache2/sites-available/000-default.conf
 RUN a2enmod rewrite
 
 # Establece permisos
