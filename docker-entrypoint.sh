@@ -13,4 +13,4 @@ php artisan config:cache
 php artisan route:cache
 
 echo "🚀 Iniciando Apache..."
-exec "$@"
+exec apache2-foreground
