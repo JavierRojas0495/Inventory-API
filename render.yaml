@@ -19,6 +19,8 @@ services:
         value: https://laravel-inventory.onrender.com
       - key: PORT
         value: 80
+
+      # Configuración de base de datos PostgreSQL
       - key: DB_CONNECTION
         value: pgsql
       - key: DB_HOST
