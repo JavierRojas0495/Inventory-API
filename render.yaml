@@ -1,7 +1,7 @@
 services:
   - type: web
     name: laravel-inventory
-    runtime: docker       # ✅ Usa esto en lugar de 'env: docker'
+    runtime: docker
     plan: free
     region: oregon
 
