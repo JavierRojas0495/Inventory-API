@@ -45,6 +45,6 @@ RUN chown -R www-data:www-data /var/www/html \
     && chmod -R 755 /var/www/html
 
 # Usar script como entrypoint y ejecutar Apache
-ENTRYPOINT ["docker-entrypoint.sh"]
+ENTRYPOINT ["/start.sh"]
 CMD ["apache2-foreground"]
 
