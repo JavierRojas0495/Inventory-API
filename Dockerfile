@@ -4,7 +4,7 @@ FROM php:8.2-apache
 # Instalar dependencias del sistema
 RUN apt-get update && apt-get install -y \
     zip unzip git curl libzip-dev libonig-dev libxml2-dev libpq-dev \
-    && docker-php-ext-install pdo pdo_mysql zip
+    && docker-php-ext-install pdo pdo_pgsql zip
 
 # Habilitar mod_rewrite de Apache
 RUN a2enmod rewrite
@@ -18,7 +18,7 @@ COPY . .
 # Cambiar DocumentRoot a /public
 RUN sed -i 's|/var/www/html|/var/www/html/public|g' /etc/apache2/sites-available/000-default.conf
 
-# Asignar permisos a Laravel
+# Asignar permisos adecuados
 RUN chown -R www-data:www-data /var/www/html \
     && chmod -R 755 /var/www/html/storage /var/www/html/bootstrap/cache
 
@@ -32,8 +32,12 @@ RUN composer install --no-dev --optimize-autoloader
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
-# Exponer puerto
+# Exponer el puerto 80
 EXPOSE 80
 
-# Ejecutar el script como comando de inicio
+# Comprobación de salud (opcional pero útil)
+HEALTHCHECK --interval=10s --timeout=3s --start-period=5s --retries=3 \
+  CMD curl -f http://localhost || exit 1
+
+# Comando de inicio
 CMD ["docker-entrypoint.sh"]

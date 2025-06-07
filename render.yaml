@@ -17,15 +17,17 @@ services:
         generateValue: true
       - key: APP_URL
         value: https://laravel-inventory.onrender.com
+      - key: PORT
+        value: 80
       - key: DB_CONNECTION
-        value: mysql
+        value: pgsql
       - key: DB_HOST
-        value: your-db-host
+        value: dpg-d11nhpbipnbc73d2j8vg-a
       - key: DB_PORT
-        value: 3306
+        value: 5432
       - key: DB_DATABASE
-        value: your-db-name
+        value: inventory_db_8afc
       - key: DB_USERNAME
-        value: your-db-username
+        value: root
       - key: DB_PASSWORD
-        value: your-db-password
+        value: RGjVqDG3NGDRaiAzF9MRTGrynu1HJzeP
