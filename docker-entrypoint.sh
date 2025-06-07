@@ -1,16 +1,16 @@
 #!/bin/bash
 set -e
 
-# Cambiar permisos por si acaso (opcional)
+echo "🔧 Ajustando permisos..."
 chown -R www-data:www-data storage bootstrap/cache
 
-# Ejecutar migraciones sin que falle el container si hay error
-php artisan migrate --force || echo "Migraciones fallidas o ya ejecutadas"
+echo "📦 Ejecutando migraciones (si es necesario)..."
+php artisan migrate --force || echo "⚠️ Migraciones fallidas o ya ejecutadas"
 
-# Limpiar y cachear configuración y rutas para optimizar Laravel
+echo "⚙️ Limpiando y cacheando configuración y rutas..."
 php artisan config:clear
 php artisan config:cache
 php artisan route:cache
 
-# Finalmente, ejecutar el comando por defecto (apache2)
+echo "🚀 Iniciando Apache..."
 exec "$@"
