@@ -1,11 +1,13 @@
 services:
   - type: web
     name: laravel-inventory
-    env: docker
+    runtime: docker       # ✅ Usa esto en lugar de 'env: docker'
     plan: free
     region: oregon
-    dockerfilePath: ./Dockerfile   # Asegúrate de tener este Dockerfile en la raíz
+
+    dockerfilePath: ./Dockerfile
     autoDeploy: true
+
     envVars:
       - key: APP_ENV
         value: production
