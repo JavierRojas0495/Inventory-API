@@ -1,21 +1,12 @@
 #!/bin/bash
+set -e
 
-# Esperar a que la base de datos esté disponible
-echo "Esperando a que la base de datos esté disponible..."
-until php artisan migrate:status > /dev/null 2>&1; do
-  >&2 echo "La base de datos aún no está lista - esperando..."
-  sleep 3
-done
-
-# Generar clave si no existe
-if [ ! -s .env ] || ! grep -q "APP_KEY=base64" .env; then
-  echo "Generando clave de aplicación..."
-  php artisan key:generate
+# Cambiar puerto Apache si la variable $PORT está definida (Render la pasa)
+if [ -n "$PORT" ]; then
+    echo "Setting Apache to listen on port $PORT"
+    sed -i "s/Listen 80/Listen $PORT/" /etc/apache2/ports.conf
+    sed -i "s/<VirtualHost \*:80>/<VirtualHost *:$PORT>/" /etc/apache2/sites-available/000-default.conf
 fi
 
-# Ejecutar migraciones (ignora errores si ya están aplicadas)
-echo "Ejecutando migraciones..."
-php artisan migrate --force || true
-
-# Ejecutar el comando principal del contenedor
+# Ejecutar el comando por defecto (apache2-foreground)
 exec "$@"
