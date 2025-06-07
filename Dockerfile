@@ -1,36 +1,40 @@
-FROM php:8.2-apache
+# Etapa 1: Build
+FROM composer:2 AS build
 
-RUN apt-get update && apt-get install -y \
-    zip unzip git curl libzip-dev libpq-dev libonig-dev libxml2-dev \
-    && docker-php-ext-install pdo pdo_pgsql zip
+WORKDIR /app
 
-RUN a2enmod rewrite
-
-WORKDIR /var/www/html
+COPY composer.json composer.lock ./
+RUN composer install --no-dev --optimize-autoloader
 
 COPY . .
 
-RUN sed -i 's|/var/www/html|/var/www/html/public|g' /etc/apache2/sites-available/000-default.conf
+# Etapa 2: Producción
+FROM php:8.2-apache
 
-RUN chown -R www-data:www-data /var/www/html \
-    && chmod -R 755 /var/www/html/storage \
-    && chmod -R 755 /var/www/html/bootstrap/cache
+# Instala extensiones necesarias
+RUN apt-get update && apt-get install -y \
+    libpq-dev unzip git curl libzip-dev zip \
+    && docker-php-ext-install pdo pdo_pgsql zip
 
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+# Copia archivos de la build anterior
+COPY --from=build /app /var/www/html
 
-RUN composer install --no-dev --optimize-autoloader || true
+# Configura Apache
+COPY .docker/vhost.conf /etc/apache2/sites-available/000-default.conf
+RUN a2enmod rewrite
 
-# Generar APP_KEY si falta
-RUN if [ ! -f .env ]; then cp .env.example .env; fi && \
-    php artisan key:generate && \
+# Establece permisos
+RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+
+# Comandos para preparar Laravel (sin copiar .env.example)
+RUN php artisan key:generate --force && \
     php artisan config:clear && \
     php artisan config:cache && \
     php artisan migrate --force || true
 
+# Entry point opcional (si tienes uno)
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
-
-EXPOSE 80
 
 ENTRYPOINT ["docker-entrypoint.sh"]
 CMD ["apache2-foreground"]
