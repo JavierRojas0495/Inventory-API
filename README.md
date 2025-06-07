@@ -122,7 +122,71 @@ El sistema utiliza **Laravel Sanctum** para generar tokens personales. Los usuar
 }
 ```
 
+### Resultado de la peticion
+
+```json
+{
+    "message": "Usuario registrado exitosamente por el admin.",
+    "user": {
+        "name": "Ana Admin",
+        "email": "ana@example.com",
+        "role": "admin",
+        "updated_at": "2025-06-07T17:22:26.000000Z",
+        "created_at": "2025-06-07T17:22:26.000000Z",
+        "id": 2
+    }
+}
+```
+
 > Este endpoint requiere autenticación con un token de un usuario con rol `admin`.
+
+### 🧍 Login (`/api/login`)
+
+**📬 Método:** `POST`  
+**📍 URL:** `https://inventory-api-1u4p.onrender.com/api/login`  
+**🔓 Autenticación requerida:** ❌ No
+
+#### 🧾 Ejemplo de cuerpo (Body)
+
+```json
+{
+  "email": "admin@example.com",
+  "password": "123456"
+}
+```
+
+### Resultado de la peticion
+
+```json
+{
+    "access_token": "2|qIZlHqzGvrB0h7KZVZJDNueZx49DwwWn9BkBDydM32d37aec",
+    "token_type": "Bearer"
+}
+```
+
+### 🧍 Logout (`/api/logout`)
+
+**📬 Método:** `POST`  
+**📍 URL:** `https://inventory-api-1u4p.onrender.com/api/login`  
+**🔓 Autenticación requerida:** ❌ No
+
+#### 🧾 Ejemplo de cuerpo (Body)
+
+```json
+{
+  "email": "admin@example.com",
+  "password": "123456"
+}
+```
+
+### Resultado de la peticion
+
+```json
+{
+    "access_token": "2|qIZlHqzGvrB0h7KZVZJDNueZx49DwwWn9BkBDydM32d37aec",
+    "token_type": "Bearer"
+}
+```
 
 ---
 
