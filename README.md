@@ -402,11 +402,31 @@ Resultado de la petición
 Este proyecto está bajo la licencia [MIT](https://opensource.org/licenses/MIT).
 
 ---
+
 ## 📂 Repositorio
 
-🔗 [GitHub - Inventory API](https://github.com/JavierRojas0495/Inventory-API)
+🔗 [GitHub - Inventory API](https://github.com/JavierRojas0495/Inventory-API)  
+🌐 Producción: [https://laravel-inventory.onrender.com](https://laravel-inventory.onrender.com)
+
+---
+
+## 📬 Colección de Postman
+
+En la raíz del proyecto encontrarás el archivo **Inventario API.postman_collection.json**, que contiene la colección de Postman con todas las rutas disponibles de la API.
+
+Puedes importar esta colección en Postman y utilizarla directamente con el entorno en producción desplegado en Render:
+
+🔗 **Base URL**: `https://laravel-inventory.onrender.com`
+
+> Asegúrate de configurar una variable de entorno en Postman con el nombre:
+> 
+> ```
+> base_url = https://laravel-inventory.onrender.com
+> ```
+
+---
 
 ## 📬 Contacto
 
 Desarrollado por **Javier Rojas**  
-✉️ Email: [javier.andres.rojas.erazo@gmail.com]  
+✉️ Email: [javier.andres.rojas.erazo@gmail.com](mailto:javier.andres.rojas.erazo@gmail.com)
