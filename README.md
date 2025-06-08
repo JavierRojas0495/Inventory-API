@@ -402,8 +402,11 @@ Resultado de la petición
 Este proyecto está bajo la licencia [MIT](https://opensource.org/licenses/MIT).
 
 ---
+## 📂 Repositorio
 
-## 🙌 Autor
+🔗 [GitHub - Inventory API](https://github.com/JavierRojas0495/Inventory-API)
+
+## 📬 Contacto
 
 Desarrollado por **Javier Rojas**  
-¡Gracias por revisar este proyecto! 💻
+✉️ Email: [javier.andres.rojas.erazo@gmail.com]  

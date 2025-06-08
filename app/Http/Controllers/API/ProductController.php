@@ -52,7 +52,7 @@ class ProductController extends Controller
 
         $product = Product::create($validated);
 
-        return response()->json(['message' => 'Product created successfully', 'product' => $product], 201);
+        return response()->json(['message' => 'Producto creado correctamente', 'product' => $product], 201);
     }
 
     public function update(Request $request, $id)

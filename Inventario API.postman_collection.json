@@ -1,0 +1,398 @@
+{
+	"info": {
+		"_postman_id": "4d19b7c2-9baa-4d50-9e48-6579f272e1fc",
+		"name": "Inventario API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25831184",
+		"_collection_link": "https://blue-meadow-725653.postman.co/workspace/Team-Workspace~45caa1a5-7ba9-4d3a-86ad-4a621e65ee60/collection/25831184-4d19b7c2-9baa-4d50-9e48-6579f272e1fc?action=share&source=collection_link&creator=25831184"
+	},
+	"item": [
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Register User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Admin\",\r\n  \"email\": \"admin@example.com\",\r\n  \"password\": \"123456\",\r\n  \"password_confirmation\": \"123456\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://inventory-api-1u4p.onrender.com/api/login/register",
+							"protocol": "https",
+							"host": [
+								"inventory-api-1u4p",
+								"onrender",
+								"com"
+							],
+							"path": [
+								"api",
+								"login",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register User Admin",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{Bearer}}",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Ana Admin\",\r\n  \"email\": \"ana@example.com\",\r\n  \"password\": \"admin123\",\r\n  \"password_confirmation\": \"admin123\",\r\n  \"role\": \"admin\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://inventory-api-1u4p.onrender.com/api/admin/register",
+							"protocol": "https",
+							"host": [
+								"inventory-api-1u4p",
+								"onrender",
+								"com"
+							],
+							"path": [
+								"api",
+								"admin",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"admin@example.com\",\r\n  \"password\": \"123456\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://inventory-api-1u4p.onrender.com/api/login",
+							"protocol": "https",
+							"host": [
+								"inventory-api-1u4p",
+								"onrender",
+								"com"
+							],
+							"path": [
+								"api",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "LogOut",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": " application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": " Bearer {{Bearer}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://inventory-api-1u4p.onrender.com/api/logout",
+							"protocol": "https",
+							"host": [
+								"inventory-api-1u4p",
+								"onrender",
+								"com"
+							],
+							"path": [
+								"api",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Products",
+			"item": [
+				{
+					"name": "getProducts",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": " application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": " Bearer {{Bearer}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://inventory-api-1u4p.onrender.com/api/products",
+							"protocol": "https",
+							"host": [
+								"inventory-api-1u4p",
+								"onrender",
+								"com"
+							],
+							"path": [
+								"api",
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register Product",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": " application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": " Bearer {{Bearer}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"category_id\": 1,\r\n  \"name\": \"Laptop Dell XPS 10\",\r\n  \"description\": \"Ultrabook de 18 pulgadas con procesador Intel i7\",\r\n  \"price\": 1399.99,\r\n  \"stock\": 20\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://inventory-api-1u4p.onrender.com/api/products",
+							"protocol": "https",
+							"host": [
+								"inventory-api-1u4p",
+								"onrender",
+								"com"
+							],
+							"path": [
+								"api",
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Product",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": " application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": " Bearer {{Bearer}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n \"category_id\": 1,\r\n  \"name\": \"Laptop Dell XPS 16\",\r\n  \"description\": \"Ultrabook de 15 pulgadas con procesador Intel i7\",\r\n  \"price\": 1600,\r\n  \"stock\": 10\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://inventory-api-1u4p.onrender.com/api/products/3",
+							"protocol": "https",
+							"host": [
+								"inventory-api-1u4p",
+								"onrender",
+								"com"
+							],
+							"path": [
+								"api",
+								"products",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Product",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": " application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": " Bearer {{Bearer}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"category_id\": 2,\r\n  \"name\": \"Pantalon PUMA\",\r\n  \"description\": \"Pantalon PUMA\",\r\n  \"price\": 29.99,\r\n  \"stock\": 100\r\n}\r\n"
+						},
+						"url": {
+							"raw": "https://inventory-api-1u4p.onrender.com/api/products/4",
+							"protocol": "https",
+							"host": [
+								"inventory-api-1u4p",
+								"onrender",
+								"com"
+							],
+							"path": [
+								"api",
+								"products",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getProduct",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": " application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": " Bearer {{Bearer}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://inventory-api-1u4p.onrender.com/api/products/3",
+							"protocol": "https",
+							"host": [
+								"inventory-api-1u4p",
+								"onrender",
+								"com"
+							],
+							"path": [
+								"api",
+								"products",
+								"3"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "URL",
+			"value": "http://localhost:8000/api",
+			"type": "string"
+		}
+	]
+}
