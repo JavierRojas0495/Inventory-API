@@ -406,7 +406,7 @@ Este proyecto está bajo la licencia [MIT](https://opensource.org/licenses/MIT).
 ## 📂 Repositorio
 
 🔗 [GitHub - Inventory API](https://github.com/JavierRojas0495/Inventory-API)  
-🌐 Producción: [https://laravel-inventory.onrender.com](https://laravel-inventory.onrender.com)
+🌐 Producción: [https://inventory-api-1u4p.onrender.com](https://inventory-api-1u4p.onrender.com)
 
 ---
 
@@ -416,12 +416,12 @@ En la raíz del proyecto encontrarás el archivo **Inventario API.postman_collec
 
 Puedes importar esta colección en Postman y utilizarla directamente con el entorno en producción desplegado en Render:
 
-🔗 **Base URL**: `https://laravel-inventory.onrender.com`
+🔗 **Base URL**: `https://inventory-api-1u4p.onrender.com`
 
 > Asegúrate de configurar una variable de entorno en Postman con el nombre:
 > 
 > ```
-> base_url = https://laravel-inventory.onrender.com
+> base_url = https://inventory-api-1u4p.onrender.com
 > ```
 
 ---
