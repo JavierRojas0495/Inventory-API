@@ -441,10 +441,13 @@ Puedes importar esta colección en Postman y utilizarla directamente con el ento
 
 ### 🔐 Control de acceso y autorización
 
-- Se implementó un **middleware personalizado** llamado `sectum`, que verifica si el usuario autenticado posee el rol `admin` antes de permitir acciones como:
+- Se implementó un **middleware personalizado**, que verifica si el usuario autenticado posee el rol `admin` antes de permitir acciones como:
   - Registrar nuevos usuarios.
   - Gestionar productos o inventario.
-- Dependiendo del rol (`admin` o `user`), el sistema permite o restringe el acceso a ciertas funcionalidades para garantizar la seguridad y una experiencia adaptada a cada tipo de usuario.
+- **Laravel Sanctum** se utiliza únicamente para la autenticación mediante **tokens personales**.
+- La **autorización** se gestiona a través del controlador y validaciones basadas en el rol del usuario.
+- Dependiendo del rol (`admin` o `user`), el sistema permite o restringe el acceso a determinadas funcionalidades, garantizando la seguridad y una experiencia adaptada para cada tipo de usuario.
+
 ---
 
 ## 📬 Contacto
