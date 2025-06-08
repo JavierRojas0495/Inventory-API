@@ -167,24 +167,21 @@ El sistema utiliza **Laravel Sanctum** para generar tokens personales. Los usuar
 ### 🧍 Logout (`/api/logout`)
 
 **📬 Método:** `POST`  
-**📍 URL:** `https://inventory-api-1u4p.onrender.com/api/login`  
-**🔓 Autenticación requerida:** ❌ No
+**📍 URL:** `https://inventory-api-1u4p.onrender.com/api/logout`  
+**🔓 Autenticación requerida:** ✅ Sí (token Bearer de un usuario con rol)
 
-#### 🧾 Ejemplo de cuerpo (Body)
+#### 📥 Encabezados requeridos
 
-```json
-{
-  "email": "admin@example.com",
-  "password": "123456"
-}
-```
+| Clave         | Valor               |
+|---------------|---------------------|
+| Authorization | Bearer {token}      |
+| Accept | application/json    |
 
 ### Resultado de la peticion
 
 ```json
 {
-    "access_token": "2|qIZlHqzGvrB0h7KZVZJDNueZx49DwwWn9BkBDydM32d37aec",
-    "token_type": "Bearer"
+    "message": "Logged out successfully"
 }
 ```
 
@@ -206,20 +203,102 @@ Este proyecto utiliza autenticación basada en roles. Solo los usuarios con el r
 
 ### 📦 Products
 
-| Método | Endpoint               | Descripción                        |
-|--------|------------------------|------------------------------------|
-| GET    | /api/products          | Lista todos los productos          |
-| GET    | /api/products/{id}     | Muestra un producto específico     |
-| POST   | /api/products          | Crea un nuevo producto             |
-| PUT    | /api/products/{id}     | Actualiza un producto              |
-| DELETE | /api/products/{id}     | Elimina un producto                |
+| Método | Endpoint           | Descripción                    | Autenticación |
+| ------ | ------------------ | ------------------------------ | ------------- |
+| GET    | /api/products      | Lista todos los productos      | ✅ Sí          |
+| GET    | /api/products/{id} | Muestra un producto específico | ✅ Sí          |
+| POST   | /api/products      | Crea un nuevo producto         | ✅ Sí (admin)  |
+| PUT    | /api/products/{id} | Actualiza un producto          | ✅ Sí (admin)  |
+| DELETE | /api/products/{id} | Elimina un producto            | ✅ Sí (admin)  |
 
 ## 🧾 Detalles del Registro
 
-### Crear producto (`/api/products`)
+### Listar producto (`/api/products`)
+
+**📬 Método:** `POST`  
+**📍 URL:** `https://inventory-api-1u4p.onrender.com/api/products`  
+**🔓 Autenticación requerida:** ✅ Sí (token Bearer de un usuario con rol)
+
+#### 📥 Encabezados requeridos
+
+| Clave         | Valor               |
+|---------------|---------------------|
+| Authorization | Bearer {token}      |
+| Accept        | application/json    |
+
+### Resultado de la peticion
 
 ```json
 {
+    "message": "Lista de productos",
+    "data": {
+        "current_page": 1,
+        "data": [
+            {
+                "id": 1,
+                "category_id": 6,
+                "name": "Camiseta Adidas",
+                "description": "Camiseta tipo Polo Negra",
+                "price": "29.99",
+                "stock": 100,
+                "created_at": "2025-06-07T16:40:55.000000Z",
+                "updated_at": "2025-06-07T16:43:57.000000Z",
+                "category": {
+                    "id": 6,
+                    "name": "Moda",
+                    "description": "Ropa, calzado y accesorios",
+                    "created_at": "2025-06-07T16:40:41.000000Z",
+                    "updated_at": "2025-06-07T16:40:41.000000Z"
+                }
+            }
+        ],
+        "first_page_url": "http://inventory-api-1u4p.onrender.com/api/products?page=1",
+        "from": 1,
+        "last_page": 1,
+        "last_page_url": "http://inventory-api-1u4p.onrender.com/api/products?page=1",
+        "links": [
+            {
+                "url": null,
+                "label": "&laquo; Previous",
+                "active": false
+            },
+            {
+                "url": "http://inventory-api-1u4p.onrender.com/api/products?page=1",
+                "label": "1",
+                "active": true
+            },
+            {
+                "url": null,
+                "label": "Next &raquo;",
+                "active": false
+            }
+        ],
+        "next_page_url": null,
+        "path": "http://inventory-api-1u4p.onrender.com/api/products",
+        "per_page": 10,
+        "prev_page_url": null,
+        "to": 1,
+        "total": 1
+    }
+}
+```
+
+### Crear producto (`/api/products`)
+
+**📬 Método:** `POST`  
+**📍 URL:** `https://inventory-api-1u4p.onrender.com/api/products`  
+🔓 Autenticación requerida: ✅ Sí (admin)
+
+| Clave         | Valor            |
+| ------------- | ---------------- |
+| Authorization | Bearer {token}   |
+| Accept        | application/json |
+| Content-Type  | application/json |
+
+🧾 Ejemplo de cuerpo (Body)
+```json
+{
+  "category_id": 1,
   "name": "Laptop Dell XPS 13",
   "description": "Ultrabook de 13 pulgadas con procesador Intel i7",
   "price": 1299.99,
@@ -227,30 +306,92 @@ Este proyecto utiliza autenticación basada en roles. Solo los usuarios con el r
 }
 ```
 
+Resultado de la petición
+
+```json
+{
+    "message": "Product created successfully",
+    "product": {
+        "category_id": 1,
+        "name": "Laptop Dell XPS 13",
+        "description": "Ultrabook de 13 pulgadas con procesador Intel i7",
+        "price": 1299.99,
+        "stock": 20,
+        "updated_at": "2025-06-08T16:32:47.000000Z",
+        "created_at": "2025-06-08T16:32:47.000000Z",
+        "id": 3
+    }
+}
+```
+
 ### Actualizar producto (`/api/products/1`)
 
+**📬 Método:** `PUT`  
+**📍 URL:** `https://inventory-api-1u4p.onrender.com/api/products/3`  
+🔓 Autenticación requerida: ✅ Sí (admin)
+
+🧾 Ejemplo de cuerpo (Body)
 ```json
 {
-  "name": "Laptop Dell XPS 13 - Edición 2024",
-  "description": "Actualización con procesador Intel i9 y pantalla OLED",
-  "price": 1599.99,
-  "stock": 15
+ "category_id": 1,
+ "name": "Laptop Dell XPS 16",
+ "description": "Ultrabook de 15 pulgadas con procesador Intel i7",
+ "price": 1600,
+ "stock": 10
 }
 ```
 
-###  Consultar un producto (`/api/products/1`)
+Resultado de la petición
 
 ```json
 {
-  "id": 1,
-  "name": "Laptop Dell XPS 13",
-  "description": "Ultrabook de 13 pulgadas con procesador Intel i7",
-  "price": 1299.99,
-  "stock": 20,
-  "created_at": "2025-06-06T12:34:56.000000Z",
-  "updated_at": "2025-06-06T12:34:56.000000Z"
+    "message": "Producto actualizado",
+    "product": {
+        "id": 3,
+        "category_id": 1,
+        "name": "Laptop Dell XPS 16",
+        "description": "Ultrabook de 15 pulgadas con procesador Intel i7",
+        "price": 1600,
+        "stock": 10,
+        "created_at": "2025-06-08T16:32:47.000000Z",
+        "updated_at": "2025-06-08T16:34:10.000000Z"
+    }
 }
 ```
+
+### Consultar un producto (`/api/products/1`)
+
+**📬 Método:** `GET`  
+**📍 URL:** `https://inventory-api-1u4p.onrender.com/api/products/1`  
+🔓 Autenticación requerida: ✅ Sí
+
+Resultado de la petición
+
+```json
+{
+    "id": 3,
+    "category_id": 1,
+    "name": "Laptop Dell XPS 16",
+    "description": "Ultrabook de 15 pulgadas con procesador Intel i7",
+    "price": "1600.00",
+    "stock": 10,
+    "created_at": "2025-06-08T16:32:47.000000Z",
+    "updated_at": "2025-06-08T16:34:10.000000Z",
+    "category": {
+        "id": 1,
+        "name": "Tecnología",
+        "description": "Productos relacionados con computadoras, gadgets y software",
+        "created_at": "2025-06-07T16:40:41.000000Z",
+        "updated_at": "2025-06-07T16:40:41.000000Z"
+    }
+}
+```
+
+### ❌ Eliminar producto (`/api/products/{id}`)
+
+**📬 Método:** `DELETE`  
+**📍 URL:** `https://inventory-api-1u4p.onrender.com/api/products/1`  
+🔓 Autenticación requerida: ✅ Sí (admin)
 
 > Todos los endpoints de creación, edición y eliminación requieren autenticación con un usuario de rol `admin`.
 
