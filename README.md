@@ -426,6 +426,27 @@ Puedes importar esta colección en Postman y utilizarla directamente con el ento
 
 ---
 
+## 🧠 Decisiones de diseño
+
+- Se utilizó un campo `role` de tipo `enum` con los valores `admin` y `user` para identificar el tipo de usuario.
+- No se implementó una tabla de roles debido al tamaño y alcance del requerimiento actual, lo cual permitió simplificar el desarrollo.
+- No obstante, se consideró la posibilidad de escalar el sistema en el futuro. En ese caso, se recomienda:
+  - Crear una tabla de **roles**.
+  - Crear una tabla intermedia (por ejemplo, `role_user`) para manejar relaciones muchos a muchos.
+  - Almacenar en el campo `role` del usuario el identificador del rol correspondiente desde la tabla de roles.
+
+> Esta decisión permite mantener el código simple y funcional en esta fase, sin comprometer una futura arquitectura escalable.
+
+---
+
+### 🔐 Control de acceso y autorización
+
+- Se implementó un **middleware personalizado** llamado `sectum`, que verifica si el usuario autenticado posee el rol `admin` antes de permitir acciones como:
+  - Registrar nuevos usuarios.
+  - Gestionar productos o inventario.
+- Dependiendo del rol (`admin` o `user`), el sistema permite o restringe el acceso a ciertas funcionalidades para garantizar la seguridad y una experiencia adaptada a cada tipo de usuario.
+---
+
 ## 📬 Contacto
 
 Desarrollado por **Javier Rojas**  
